@@ -1,0 +1,92 @@
+@(movie_form: Form[models.Movie])(implicit lang: play.api.i18n.Messages)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Noto+Serif' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Noto+Serif' rel='stylesheet' type='text/css'>
+    <style>
+        .meta-right{
+        background: #fff;
+        padding: 15px;
+        }
+        * {
+        -webkit-border-radius: 0 !important;
+        -moz-border-radius: 0 !important;
+        border-radius: 0 !important;
+        }
+        .error{
+        margin-top: 2px;
+        color: red;
+        }
+    </style>
+</head>
+<body style="background-color:#f2f2f2">
+<nav class="navbar navbar-default">
+    <div class="container-fluid" style="border-bottom: 2px #6f5499 solid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="" style="color:#6f5499">ReactiveMongo Demo</a>
+        </div>
+    </div><!-- /.container-fluid -->
+</nav>
+<!--main-->
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" style="color:#6f5499">Add New Movie</h3>
+                    </div>
+                    <div class="panel-body">
+                        @helper.form(action = routes.MovieService.addMovie, 'enctype -> "multipart/form-data") {
+                        <div class="form-group">
+                            @helper.inputText(movie_form("title"),'id -> "title", 'class -> "form-control input-lg", 'autocomplete -> "off", '_label -> "Movie Name", '_showConstraints -> false, 'required -> true)
+                        </div>
+                        <div class="form-group">
+                            @helper.select(field = movie_form("genre"),
+                            options = Seq("Action"->"Action", "Animation"->"Animation","Thriller"->"Thriller","Fantasy"->"Fantasy","Drama"->"Drama","Family"->"Family","Comedy"->"Comedy"),
+                            '_label -> "Genre", '_showConstraints -> false, 'required -> true)
+                        </div>
+                        <div class="form-group">
+                            @helper.inputDate(movie_form("release_date"),'id -> "release_date", 'class -> "form-control input-lg", 'autocomplete -> "off", '_label -> "Release Date", '_showConstraints -> false, 'required -> true)
+                        </div>
+                        <div class="form-group">
+                            @helper.inputRadioGroup(movie_form("rating"), helper.options("1"->"1","2"->"2","3"->"3","4"->"4","5"->"5"),'_label -> "Rating",'_showConstraints -> false, 'required -> true,
+                            '_error -> movie_form("rating").error.map(_.withMessage("select rating")))
+                        </div>
+                        <div class="form-group">
+                            <label for="picture">Upload Pic:</label>
+                            <input type="file" name="picture" id="picture" required>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-success" style="padding:10px;width:60%;">Submit</button>
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-md-4"></div>
+        </div>
+    </div>
+</div>
+<script src="@routes.Assets.at("javascripts/jquery.js")"></script>
+<script src="@routes.Assets.at("javascripts/bootstrap.js")" type="text/javascript"></script>
+</body>
+</html>
